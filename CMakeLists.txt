@@ -1,16 +1,17 @@
 cmake_minimum_required(VERSION 3.25)
 
-# Set the C++ standard
+# 1. This is the crucial part: it tells CMake to look for the Geode SDK
+find_package(Geode REQUIRED)
+
+# 2. Set the C++ standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Define the project name (must match your mod.json id or name)
+# 3. Define the project name
 project(OpenChests VERSION 1.0.0)
 
-# Setup the Geode mod binary
-# This tells the compiler to take your main.cpp and turn it into the mod
+# 4. Create the mod library from your main.cpp
 add_library(${PROJECT_NAME} SHARED main.cpp)
 
-# This is the "magic" line that connects your code to Geode
-# It handles all the complex background stuff automatically
+# 5. Now it will recognize this command!
 setup_geode_mod(${PROJECT_NAME})
