@@ -1,4 +1,4 @@
-name: Build OpenChests
+name: Build OpenChests Mod
 
 on:
   push:
@@ -14,13 +14,23 @@ jobs:
           - name: Windows
             os: windows-latest
 
-    name: Build Mod
+    name: Build OpenChests
     runs-on: ${{ matrix.config.os }}
 
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Geode SDK
+        uses: geode-sdk/setup-geode@main
+
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
         with:
           combine: true
+
+      # THIS STEP GIVES YOU THE FILE
+      - name: Upload .geode File
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenChests-Mod
+          path: "*.geode"
