@@ -1,4 +1,4 @@
-name: Build OpenChests Mod
+name: Build OpenChests
 
 on:
   push:
@@ -7,30 +7,22 @@ on:
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - name: Windows
-            os: windows-latest
-
-    name: Build OpenChests
-    runs-on: ${{ matrix.config.os }}
+    name: Build Mod
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Geode SDK
-        uses: geode-sdk/setup-geode@main
-
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
+        id: build
         with:
+          # This tells the action to package the .geode file for you
           combine: true
 
-      # THIS STEP GIVES YOU THE FILE
-      - name: Upload .geode File
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: OpenChests-Mod
-          path: "*.geode"
+          name: OpenChests-Package
+          # This uses the output from the build step to find your file
+          path: ${{ steps.build.outputs.build-output }}
