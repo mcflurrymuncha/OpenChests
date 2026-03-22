@@ -1,0 +1,18 @@
+{
+	"geode": "5.4.0",
+	"gd": {
+		"win": "2.2081"
+	},
+	"version": "v1.0.0",
+	"id": "mcflurry.openchests",
+	"name": "OpenChests",
+	"developer": "mcflurry",
+	"description": "Unlock all treasure room chests without needing keys.",
+	"dependencies": [
+		{
+			"id": "geode.node-ids",
+			"version": ">=v1.16.0",
+			"importance": "required"
+		}
+	]
+}
