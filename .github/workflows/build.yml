@@ -35,6 +35,7 @@ jobs:
           export-pdb: true
           build-config: ${{ env.BUILD_TYPE }}
           target: win
+          platform: win
 
   package-geode:
     name: Package Mod
