@@ -13,16 +13,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build the mod
+      - name: Build Geode Mod
         uses: geode-sdk/build-geode-mod@main
         id: build
         with:
-          # This tells the action to package the .geode file for you
+          # This automatically downloads the SDK and 2.2081 headers
           combine: true
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: OpenChests-Package
-          # This uses the output from the build step to find your file
+          # This grabs the actual .geode file created in the step above
           path: ${{ steps.build.outputs.build-output }}
