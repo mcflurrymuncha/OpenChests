@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 
 # 1. This is the crucial part: it tells CMake to look for the Geode SDK
-find_package(Geode REQUIRED)
+find_package(GeodeSDK REQUIRED)
 
 # 2. Set the C++ standard
 set(CMAKE_CXX_STANDARD 20)
