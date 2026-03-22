@@ -2,27 +2,52 @@ name: Build OpenChests
 
 on:
   push:
-    branches: ["**"]
+    branches:
+      - "**"
   workflow_dispatch:
 
+env:
+  BUILD_TYPE: RelWithDebInfo
+
 jobs:
-  build:
-    # This tells GitHub to use an Ubuntu virtual machine
-    runs-on: ubuntu-latest
+  geode:
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Windows
+            os: ubuntu-latest # Using Ubuntu to build as requested
+            target: win
+
+    name: Build ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
-      - name: Build Geode Mod
+      - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
         id: build
         with:
-          # This tells the Ubuntu runner to compile for Windows
-          targets: win
           combine: true
+          export-pdb: true
+          build-config: ${{ env.BUILD_TYPE }}
+          target: ${{ matrix.config.target }}
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+  package-geode:
+    name: Package Mod
+    runs-on: ubuntu-latest
+    needs: ['geode']
+
+    steps:
+      # This step grabs the built files from the previous job
+      - uses: geode-sdk/build-geode-mod/combine@main
+        id: build
+
+      # This gives you the actual download link
+      - uses: actions/upload-artifact@v4
         with:
-          name: OpenChests-Package
+          name: OpenChests-Geode
           path: ${{ steps.build.outputs.build-output }}
